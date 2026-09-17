@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+config.json
+data/notes/
+data/demo-workspace/
+data/.trash/
+output/
+*.log
+.DS_Store
+Thumbs.db
