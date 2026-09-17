@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MindDock · 知识库与驾驶舱</title>
+<meta name="theme-color" content="#4f6ef7">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="static/icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚓%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<header id="topbar">
+  <button id="btn-back" class="icon-btn mobile-only" title="返回列表" hidden>←</button>
+  <div class="brand" title="MindDock">⚓<span class="brand-name">MindDock</span></div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="global-search" type="search" placeholder="搜索笔记…（Ctrl+K）" autocomplete="off">
+  </div>
+  <nav id="main-nav" class="desktop-only">
+    <button data-view="notes" class="nav-btn active">笔记</button>
+    <button data-view="graph" class="nav-btn">图谱</button>
+    <button data-view="cockpit" class="nav-btn">驾驶舱</button>
+  </nav>
+  <div class="top-actions">
+    <button id="btn-daily" class="icon-btn" title="今日笔记">📅</button>
+    <button id="btn-new" class="icon-btn" title="新建笔记（Ctrl+N）">＋</button>
+    <button id="btn-theme" class="icon-btn" title="切换深浅主题">🌙</button>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 知识库：列表 + 编辑器 -->
+  <section id="view-notes" class="view active">
+    <aside id="note-list-panel">
+      <div class="list-head">
+        <div id="list-title">最近笔记</div>
+        <button id="btn-trash" class="chip-btn" title="回收站">🗑</button>
+      </div>
+      <div id="tag-bar" class="tag-bar"></div>
+      <ul id="note-list"></ul>
+    </aside>
+    <section id="editor-panel">
+      <div id="editor-empty" class="editor-empty">
+        <div class="empty-icon">🗂</div>
+        <p>从左侧选择一篇笔记，或新建一篇</p>
+        <p class="empty-sub">支持 [[双向链接]]、#标签、全文搜索</p>
+      </div>
+      <div id="editor" hidden>
+        <div class="editor-head">
+          <input id="note-title" placeholder="笔记标题">
+          <div class="editor-tools">
+            <span id="save-state" class="save-state"></span>
+            <button id="btn-rename" class="chip-btn">重命名</button>
+            <button id="btn-history" class="chip-btn">历史</button>
+            <button id="btn-export" class="chip-btn">导出</button>
+            <button id="btn-preview" class="chip-btn">预览</button>
+            <button id="btn-delete" class="chip-btn danger">删除</button>
+          </div>
+        </div>
+        <div id="tag-edit" class="tag-edit"></div>
+        <div class="editor-body">
+          <textarea id="note-content" spellcheck="false" placeholder="用 Markdown 书写…&#10;&#10;[[双链]] 连接其他笔记，#标签 归类主题"></textarea>
+          <div id="preview" class="md" hidden></div>
+        </div>
+        <div id="outline-panel-wrap">
+          <div class="bk-title">📋 大纲 <span id="outline-count" class="bk-count"></span></div>
+          <ul id="outline-panel" class="outline-list"></ul>
+        </div>
+        <div id="backlinks-panel">
+          <div class="bk-title">🔗 反向链接 <span id="bk-count" class="bk-count"></span></div>
+          <ul id="backlinks"></ul>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- 图谱 -->
+  <section id="view-graph" class="view">
+    <canvas id="graph-canvas"></canvas>
+    <div id="graph-hint" class="graph-hint">拖拽节点 · 滚轮缩放 · 点击打开笔记</div>
+    <div id="graph-legend" class="graph-legend"></div>
+  </section>
+
+  <!-- 驾驶舱 -->
+  <section id="view-cockpit" class="view">
+    <div id="cockpit-root" class="cockpit"></div>
+  </section>
+</main>
+
+<nav id="mobile-nav">
+  <button data-view="notes" class="mnav-btn active"><span>📝</span>笔记</button>
+  <button data-view="graph" class="mnav-btn"><span>🕸</span>图谱</button>
+  <button data-view="cockpit" class="mnav-btn"><span>📊</span>驾驶舱</button>
+</nav>
+
+<div id="toast-wrap"></div>
+<div id="auth-mask" hidden>
+  <form id="auth-box" autocomplete="off">
+    <div class="auth-icon">⚓</div>
+    <div class="auth-title">MindDock</div>
+    <div class="auth-sub">私有知识库 · 请登录</div>
+    <input id="auth-password" type="password" placeholder="访问密码" autocomplete="current-password">
+    <button id="auth-submit" type="submit">进 入</button>
+    <div id="auth-error" class="auth-error" hidden></div>
+  </form>
+</div>
+<div id="modal-mask" hidden>
+  <div id="modal" role="dialog" aria-modal="true"></div>
+</div>
+
+<script src="static/sha256.js"></script>
+<script src="static/md.js"></script>
+<script src="static/app.js"></script>
+</body>
+</html>
